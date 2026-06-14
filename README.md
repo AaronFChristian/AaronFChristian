@@ -46,7 +46,7 @@ I don't just use AI - I build systems that make it reliable, evaluated, and prod
 
 ## 🚀 Featured Projects
 
-### 🏥 ClariRAG — Production-Grade Agentic RAG System
+### 🏥 ClariRAG - Production-Grade Agentic RAG System
 > Clinical knowledge retrieval that shows its work and knows when to stay quiet
 
 - 5-node LangGraph pipeline with hybrid BM25 + Pinecone retrieval (RRF + cross-encoder reranking)
@@ -57,7 +57,7 @@ I don't just use AI - I build systems that make it reliable, evaluated, and prod
 
 ---
 
-### 🔍 SearchIQ — Executive Search Intelligence Platform
+### 🔍 SearchIQ - Executive Search Intelligence Platform
 > Multi-agent pipeline that turns a hiring brief into an evaluated, export-ready candidate slate
 
 - 4-agent pipeline: Market Mapper → Profile Generator → Critic Agent → Exporter
@@ -78,8 +78,8 @@ I don't just use AI - I build systems that make it reliable, evaluated, and prod
 
 ## 🎓 Education
 
-- 🎓 MS Information Systems — San Diego State University *(GPA: 3.7)*
-- 🎓 B.Tech Computer Science & Business Systems — DY Patil College of Engineering *(GPA: 3.8)*
+- 🎓 MS Information Systems - San Diego State University *(GPA: 3.7)*
+- 🎓 B.Tech Computer Science & Business Systems - DY Patil College of Engineering *(GPA: 3.8)*
 
 ---
 
