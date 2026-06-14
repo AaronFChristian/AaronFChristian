@@ -86,7 +86,7 @@ I don't just use AI - I build systems that make it reliable, evaluated, and prod
 ## 💡 The Way I Think About AI
 
 Most people ask *"does the AI return an answer?"*  
-I ask *"is the answer faithful, grounded, and verifiable — and what happens when it isn't?"*
+I ask *"is the answer faithful, grounded, and verifiable - and what happens when it isn't?"*
 
 ---
 
