@@ -2,7 +2,7 @@
 
 **AI Analyst & Generative AI Researcher | LangGraph · RAG · LLM Evaluation · Multi-Agent Systems · Python · SQL · BI**
 
-I don't just use AI — I build systems that make it reliable, evaluated, and production-ready. 🚀
+I don't just use AI - I build systems that make it reliable, evaluated, and production-ready. 🚀
 
 ---
 
