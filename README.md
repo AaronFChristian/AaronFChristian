@@ -20,6 +20,7 @@ I don't just use AI - I build systems that make it reliable, evaluated, and prod
 [![](https://skillicons.dev/icons?i=github)](https://github.com/AaronFChristian)
 
 📄 [Live Demo — ClariRAG](https://clarirag-ui.vercel.app)
+📄 [Live Demo — MetricMind] (https://metric-mind.vercel.app/)
 
 ---
 
