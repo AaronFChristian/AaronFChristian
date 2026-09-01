@@ -2,7 +2,7 @@
 
 **AI Engineer & Generative AI Researcher | LangGraph · RAG · LLM Evaluation · Multi-Agent Systems · Python · SQL · BI**
 
-I make AI prove itself—before the business depends on it. 🚀
+I make AI prove itself before the business depends on it. 🚀
 
 ---
 
