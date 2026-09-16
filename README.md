@@ -65,18 +65,21 @@ Business teams wait 3–7 days for analysts to answer questions like *"what is 3
 
 ---
 
-### 🏥 ClariRAG - Production-Grade Agentic RAG System
-> Clinical knowledge retrieval that shows its work, and knows when to stay quiet
+### 🛡️ Attestor - Model-Risk Governance for GenAI & Agentic Systems
+> An AI validation finding has to prove itself against real evidence, or it never gets written
 
-Every claim is tied to a page number. Every citation is validated before it reaches the user. If the answer isn't in the corpus, the system says so — instead of guessing.
+Under the SR 26-2 model-risk regime, every GenAI and agentic system a bank runs needs conceptual soundness review, outcomes analysis, and ongoing monitoring. Most tools for this are LLM-as-judge systems, and a judge that hallucinates *"faithfulness collapsed to 0.42"* is dangerous precisely because it sounds credible. Attestor blocks ungrounded findings at write time.
 
-- **5-node LangGraph pipeline**: Analyser → Expander → Hybrid Retriever → Sufficiency Judge → Generator, with a conditional retry edge when context falls short
-- **Hybrid retrieval**: BM25 (exact clinical terminology) + Pinecone dense vectors, fused with RRF and reranked by a cross-encoder on the top 20 candidates
-- Retrieval hit rate improved from **58% → 81%**; hallucinated citations reduced to **zero** via hard guardrail validation
-- Ragas faithfulness **0.86** · LangSmith node-level tracing · FastMCP server (usable from Claude Desktop) · React + Vite frontend on Vercel
-- Corpus: 5 WHO clinical guideline PDFs · 299 pages · 1,911 chunks
+- **LangGraph validation pipeline**: Supervisor (materiality-tier routing) → 3 parallel pillar nodes (Conceptual Soundness · Outcomes Analysis · Ongoing Monitoring) → adversarial Challenge node → Attribution Gate
+- **Deterministic attribution gate**: every finding's evidence is resolved against Postgres and its cited metric checked against the stored eval run before persisting. A database lookup, not a second LLM call. `Finding.evidence_id` is `NOT NULL`
+- **Dual-judge scoring**: Claude and Llama 3.1 (Groq) score each rubric criterion independently; disagreement beyond threshold escalates to mandatory human review
+- **Real HITL interrupt/resume**: LangGraph `interrupt_before` on a Postgres checkpointer, so paused runs survive API restarts and are visible across replicas
+- **Segregation of duties enforced server-side**: Keycloak OIDC + RBAC; validators can't validate models they own, and sign-off is MRM-Head-only
+- SHA-256 hash-chained audit log · prompt-injection screening · deterministic materiality scorecard · rejected findings feed a self-governance golden set
+- Integration tests prove negative controls are rejected: fabricated evidence, cross-model citations, misreported metrics
+- Next.js 16 + React 19 · FastAPI · Qdrant · ARQ/Redis · isolated FastMCP server · Logfire + LangSmith · CI with bandit, gitleaks, dependency audit, and a blocking eval-regression gate
 
-🔗 [Repo](https://github.com/AaronFChristian/ClariRAG) · [Live Demo](https://clarirag-ui.vercel.app)
+🔗 [Repo](https://github.com/AaronFChristian/attestor)
 
 ---
 
@@ -95,35 +98,38 @@ Finance teams manually key 50,000+ invoices/month at ~$3.50/invoice. Pure vector
 
 ---
 
-### 🏭 FabIQ - Azure-Ready Multi-Agent RAG for Engineering Knowledge
-> Role-aware technical documentation intelligence with LLM-as-judge evaluation and a CI/CD eval gate
+### 🎬 Overture - Discovery Call to Grounded Demo
+> Sales transcript in, cited and grounded live demo out, in minutes instead of days
 
-Engineers at semiconductor manufacturers spend 2–3 hours per shift searching thousands of pages of machine manuals, fab process specs, and compliance guidelines. A wrong answer can stop a production line.
+Solution Engineers spend 5–25 hours a week hand-building demos in a prospect's language. Overture reads the discovery-call transcript, extracts what the prospect needs with every claim traced to an exact quote, and stands up a live Q&A demo that refuses to answer what the source can't support.
 
-- **5-agent LangGraph pipeline**: Query Understanding → Privilege Check → Hybrid Retrieval → Citation Grounding → LLM-as-Judge Evaluation
-- **RBAC enforced at the retrieval layer** — server-side access filtering, not just at the API boundary
-- **Dual LLM architecture**: Azure OpenAI GPT-4o for generation, Anthropic Claude as a separate judge model — keeping generation and scoring fully independent
-- **HITL gate**: confidence < 0.60 routes to human review instead of shipping a weak answer
-- **65 passing tests** across chunker, loader, search, agent, and pipeline layers · 30-question tiered golden eval dataset (factual, procedural, multi-hop) · CI-gated eval regression on every push
-- Prompt versioning via JSON config registry · 3 chunking strategies with ADR documentation · Full operational runbook
+- **LangGraph extraction pipeline**: 4 parallel passes (pains · constraints · requirements · vocabulary) → scope classification → blueprint selection → config fill → validate → persist → embed → share token
+- **Quote-grounded extraction**: every item must carry an exact transcript quote; anything the model can't ground is dropped
+- **Deterministic where it matters**: blueprint picked by a keyword scorer, and the deploy validator has zero LLM imports, proven by a test that greps its own source
+- **Grounded RAG Q&A** over pgvector with expandable citations; verified live refusing a prompt-override attempt to "just figure it out"
+- **Azure via Terraform**: Container Apps · Postgres Flexible Server + pgvector · Key Vault via Managed Identity (zero stored secrets) · Application Insights
+- Single container serves React SPA + FastAPI (no CORS surface in prod) · SSE streams live pipeline progress · swappable Claude / Azure OpenAI provider
+- **75+ tests** · ruff + mypy strict · 50-entry `decisions.md` of real bugs, e.g. a flaky token-tamper test traced to base64 trailing-byte redundancy (6.6%, measured over 10,000 runs)
 
-🔗 [Repo](https://github.com/AaronFChristian/FabIQ)
+🔗 [Repo](https://github.com/AaronFChristian/overture)
 
 ---
 
-### 🔍 SearchIQ - Executive Search Intelligence Platform
-> Multi-agent pipeline that turns a plain-English hiring brief into an evaluated, export-ready candidate slate
+### 🕸️ CaseWeave - Agentic AML Investigation Copilot
+> Every sentence in the SAR narrative is provably grounded in evidence, or refused outright
 
-Most AI pipelines stop at "the model returned valid JSON." SearchIQ treats that as the easy 10% of the problem.
+Transaction monitoring alerts run 90–95% false positives, and a Suspicious Activity Report is a legal filing with FinCEN. A hallucinated sentence isn't a UX bug, it's a false statement to the government. CaseWeave is built around that constraint.
 
-- **4-agent pipeline**: Market Mapper → Profile Generator → Critic Agent → Exporter
-- Critic agent scores every profile against **5 structured criteria** (title match, accountability ownership, credential specificity, brief-specific fit, domain translation risk) before any slate ships
-- Schema-validated JSON contracts between agents; failed validation triggers a corrective retry with the error fed back into the prompt
-- Multi-provider: Claude Sonnet / Haiku, GPT-4o, Gemini — swappable via a single config file
-- Versioned prompts with v1 limitations documented inline — the iteration reasoning is visible, not just the final result
-- Streamlit UI · Google Sheets export with CSV fallback
+- **9-node LangGraph supervisor**: triage (Claude Haiku 4.5) → evidence gathering → narrative (Claude Sonnet 5) → per-sentence guardrail gate
+- **Frozen EvidenceLedger**: every fact gets an ID before drafting, and the narrative model sees only the ledger, never raw rows
+- **Sentence-level attribution validator** with independent judge entailment; below 90% coverage it refuses and returns an evidence-gap report. Caught a real hallucinated regulatory citation in live testing
+- **Graph-only detection**: Neo4j Cypher catches circular fund flows invisible to SQL. Planted-subject recall **91% → 100%**
+- **L0–L4 autonomy ladder** per rule; L4 auto-close only with golden-set evidence re-verified at runtime. Same alert: **13 LLM calls / $0.03** at L2 vs **0 / $0.00** at L0
+- Redpanda streaming with DLQ · River online anomaly scoring · hybrid pgvector retrieval · DuckDB long-term memory of prior dispositions
+- LangSmith + Logfire tracing down to individual guardrail sentence decisions · 5-tool read-only FastMCP server
+- **69 tests** · CI with ruff, mypy strict, bandit, pip-audit, golden-set gate, and a reproducibility gate · React + Vite + Cytoscape.js review console · synthetic data only
 
-🔗 [Repo](https://github.com/AaronFChristian/SearchIQ)
+🔗 [Repo](https://github.com/AaronFChristian/caseweave)
 
 ---
 
