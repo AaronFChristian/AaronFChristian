@@ -19,8 +19,6 @@ I make AI prove itself before the business depends on it. 🚀
 [![](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/aaronchristi7n)
 [![](https://skillicons.dev/icons?i=github)](https://github.com/AaronFChristian)
 
-📄 [Live Demo - ClariRAG](https://clarirag-ui.vercel.app) &nbsp;|&nbsp; 📄 [Live Demo — MetricMind](https://metric-mind-liart.vercel.app)
-
 ---
 
 ## ⚡ What I Build
